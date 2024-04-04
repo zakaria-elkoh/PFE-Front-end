@@ -16,6 +16,7 @@ const PostSkeleton = () => {
             <p className="w-1/2 h-3 mt-3 bg-gray-200 rounded-lg dark:bg-gray-700"></p>
           </div>
           <div className="w-full h-72 bg-gray-300 dark:bg-gray-600"></div>
+          <div className="w-full h-12 mt-3 bg-gray-300 dark:bg-gray-600"></div>
         </div>
       </div>
     </div>

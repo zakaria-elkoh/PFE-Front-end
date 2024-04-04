@@ -83,14 +83,16 @@ const ProfileNotificationDropdown = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
-              <Link to={"/profile"}>My profile</Link>
+              <Link to={"/user/profile"} className="w-full h-full px-2 py-1.5">
+                My profile
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer px-2 py-1.5">
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="cursor-pointer"
+              className="cursor-pointer px-2 py-1.5"
               onClick={() => {
                 logOut(setAuthUser, setIsAuthenticated);
                 navigate("/login");

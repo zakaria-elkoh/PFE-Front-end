@@ -14,6 +14,8 @@ const Aside = () => {
         <Li to={"/admin/dashboard/statistic"} liName="Dashboard" />
         <Li to={"/admin/dashboard/lawyers"} liName="Lawyers" />
         <Li to={"/admin/dashboard/users"} liName="Users" />
+        {/* <Li to={"/"} liName="My saves" />
+        <Li to={"/"} liName="Home" /> */}
         <Li to={"/"} liName="Home" />
         <li
           onClick={() => {

@@ -3,11 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { getFirstLetters } from "@/lib/utils";
 import { useState } from "react";
 import customAxios from "@/axios/customAxios";
+import { toast } from "sonner";
 
 const AddPost = () => {
   const { authUser } = useAuth();
   const [postImage, setPostImage] = useState();
   const [postData, setPostData] = useState({});
+  const [open, setOpen] = useState(false);
 
   const handleChange = (e) => {
     setPostData((prev) => ({
@@ -38,9 +40,12 @@ const AddPost = () => {
       .post("/posts", formData)
       .then((res) => {
         console.log(res);
+        setOpen(false);
+        toast.success("Post added with success.");
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Failed to add post.");
       });
   };
 
@@ -48,7 +53,7 @@ const AddPost = () => {
     <form className="" onSubmit={handleSubmit}>
       <div className="flex items-center my-2">
         <Avatar className="border-2 w-12 h-12">
-          <AvatarImage src="https://images.unsplash.com/photo-1488508872907-592763824245?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" />
+          <AvatarImage src={authUser.profile_image} />
           <AvatarFallback>{getFirstLetters(authUser.name)}</AvatarFallback>
         </Avatar>
 

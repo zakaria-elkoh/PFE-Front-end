@@ -7,6 +7,7 @@ export const useAuth = () => {
 };
 
 export const UserProvider = ({ children }) => {
+  
   const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("auth_user")));
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("auth_user")

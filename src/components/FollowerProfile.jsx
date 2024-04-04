@@ -2,18 +2,22 @@ import VerifiedIcon from "./shared/VerifiedIcon";
 
 import { removeFollow, storeFollow } from "@/services/http";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
+import { getFirstLetters } from "@/lib/utils";
 
-const MiniProfile = ({ user }) => {
+const FollowerProfile = ({ user }) => {
   return (
-    <div className="max-w-lg mx-auto p-2 bg-white rounded-lg shadow-md w-full">
-      <div>
+    <div className="flex items-center max-w-lg mx-auto p-2 bg-white rounded-lg shadow-md w-full ">
+      <div className="flex-1">
         <Link to={`/profile/${user.user_name}`} className="flex items-center">
           <div className="relative">
-            <img
-              className="object-cover h-12 w-12 rounded-full"
-              src={user?.profile_image}
-              alt="Avatar"
-            />
+            <Avatar className="border-2 w-12 h-12 flex justify-center items-center font-bold">
+              <AvatarImage src={user.profile_image} />
+              <AvatarFallback>
+                {getFirstLetters("zakaria elkoh")}
+              </AvatarFallback>
+            </Avatar>
             <div className="absolute top-[62%] left-[55%]">
               {user?.is_verified && <VerifiedIcon />}
             </div>
@@ -33,15 +37,9 @@ const MiniProfile = ({ user }) => {
           </div>
         </Link>
       </div>
-      {/* <Avatar className="border-2 w-24 h-24">
-        <AvatarImage src="https://picsum.photos/200" />
-        <AvatarFallback>{getFirstLetters("zakaria elkoh")}</AvatarFallback>
-      </Avatar>
-      <h2 className="text-center text-2xl font-semibold mt-3">John Doe</h2>
-      <p className="text-center text-gray-600 mt-1">Lawyer</p> */}
       <div className="flex justify-center">
         <buttn
-          className="text-blue-500 border border-blue-400 rounded-md px-3 cursor-pointer hover:text-blue-700 mt-2"
+          className="text-blue-500 border border-blue-400 rounded-md px-3 cursor-pointer hover:text-blue-700"
           data-following="false"
           onClick={(e) => {
             if (e.target.textContent === "Following") {
@@ -53,11 +51,11 @@ const MiniProfile = ({ user }) => {
             }
           }}
         >
-          {user?.is_followed ? "Following" : "Follow"}
+          Following
         </buttn>
       </div>
     </div>
   );
 };
 
-export default MiniProfile;
+export default FollowerProfile;

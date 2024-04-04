@@ -7,12 +7,19 @@ import Profile from "./pages/User/Profile";
 import Statistic from "./pages/Admin/Dashboard/Statistic";
 import DashboardLayout from "./pages/Admin/Dashboard/DashboardLayout";
 import Lawyers from "./pages/Admin/Dashboard/Lawyers";
-import Users from "./pages/Admin/Dashboard/Users";
+import DashUsers from "./pages/Admin/Dashboard/Users";
+import Chat from "./pages/Chat";
+import UserProfile from "./pages/User/UserProfile";
+import Users from "./pages/Connect";
 
 const routes = createBrowserRouter([
   {
     path: "*",
     element: <h1>not found</h1>,
+  },
+  {
+    path: "/chat",
+    element: <Chat />,
   },
   {
     path: "/",
@@ -28,11 +35,19 @@ const routes = createBrowserRouter([
     children: [
       { path: "statistic", element: <Statistic /> },
       { path: "lawyers", element: <Lawyers /> },
-      { path: "users", element: <Users /> },
+      { path: "users", element: <DashUsers /> },
     ],
   },
   {
-    path: "/profile",
+    path: "user/profile",
+    element: <UserProfile />,
+  },
+  {
+    path: "users",
+    element: <Users />,
+  },
+  {
+    path: "/profile/:username",
     element: <Profile />,
   },
   {
