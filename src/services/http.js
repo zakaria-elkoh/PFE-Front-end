@@ -1,6 +1,5 @@
 import customAxios from "@/axios/customAxios";
-import { useEffect } from "react";
-
+import { toast } from "sonner";
 
 // save functions
 const storeSave = async (post_id) => {
@@ -96,6 +95,18 @@ const removeMessage = async (id, message) => {
 }
 
 
+// admin functions
+const banUser = async (user_id) => {
+  const res = await customAxios.get(`/admin/users/${user_id}/ban`);
+  return res.data;
+};
+
+const unbanUser = async (user_id) => {
+  const res = await customAxios.get(`/admin/users/${user_id}/unban`);
+  return res.data;
+};
+
+
 
 export {
     storeLike,
@@ -107,5 +118,7 @@ export {
     removeSave,
     storeSave,
     storeMessage,
-    removeMessage
+    removeMessage,
+    banUser,
+    unbanUser
 };

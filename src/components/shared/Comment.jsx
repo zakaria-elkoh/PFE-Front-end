@@ -17,14 +17,14 @@ const Comment = ({ comment }) => {
     //   </div>
     // </div>
     <div className="flex items-center my-1 px-2">
-      <Avatar className="border-2 w-12 h-12">
+      <Avatar className="border-2 w-11 h-11">
         <AvatarImage src={comment?.author?.profile_image} />
         <AvatarFallback>
           {getFirstLetters(comment?.author?.name)}
         </AvatarFallback>
       </Avatar>
 
-      <div className="ml-2 text-left bg-gray-200 w-full p-2 rounded-xl">
+      <div className="ml-2 text-left bg-gray-200 w-full px-3 py-1.5 rounded-xl">
         <h1 className="font-semibold text-gray-800 dark:text-white capitalize">
           {comment?.author?.name}
         </h1>

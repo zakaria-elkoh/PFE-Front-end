@@ -12,6 +12,10 @@ const Aside = () => {
 
       <ul className="flex flex-col gap-2 mt-3">
         <Li to={"/admin/dashboard/statistic"} liName="Dashboard" />
+        <Li
+          to={"/admin/dashboard/verification/requests"}
+          liName="Veri Requests"
+        />
         <Li to={"/admin/dashboard/lawyers"} liName="Lawyers" />
         <Li to={"/admin/dashboard/users"} liName="Users" />
         {/* <Li to={"/"} liName="My saves" />

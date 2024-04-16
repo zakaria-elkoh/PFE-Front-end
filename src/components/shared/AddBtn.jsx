@@ -7,7 +7,9 @@ import {
 
 const AddBtn = () => {
   return (
-    <div className="fixed right-7 bottom-7 md:right-12 md:bottom-12 rounded-full shadow-xl">
+    <div
+      className="fixed right-7 bottom-7 md:right-12 md:bottom-12 rounded-full shadow-xl"
+    >
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>

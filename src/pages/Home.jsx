@@ -29,15 +29,23 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const Home = () => {
   const { isAuthenticated, authUser } = useAuth();
   const [posts, setPosts] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
   const [searchValue, setSearchValue] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   const handleSearch = async () => {
     setPosts([]);
+    setLoading(true);
     try {
       const res = await customAxios.get("/posts/search?search=" + searchValue);
+      setLoading(false);
       setPosts(res.data.data);
     } catch (error) {
+      setLoading(false);
+      setError("Not found");
       console.log(error);
     }
   };
@@ -46,11 +54,15 @@ const Home = () => {
     setPageNumber(pageNumber + 1);
     try {
       const res = await customAxios.get("/posts?page=" + pageNumber);
+      setLoading(false);
       setPosts(posts.concat(res.data.data));
+      setError("");
       console.log(res.data);
       console.log("page number", pageNumber);
     } catch (error) {
+      setLoading(false);
       console.log(error);
+      setError("Not found");
     }
   };
 
@@ -63,7 +75,7 @@ const Home = () => {
       <NavBar />
 
       {isAuthenticated && (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
             <AddBtn />
           </DialogTrigger>
@@ -71,7 +83,7 @@ const Home = () => {
             <DialogHeader>
               <DialogTitle>New Post</DialogTitle>
               <DialogDescription>
-                <AddPost authUser={authUser} />
+                <AddPost authUser={authUser} setOpen={setOpen} />
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
@@ -84,7 +96,7 @@ const Home = () => {
         hasMore={true}
         loader={
           <h4 className="py-3 text-center font-semibold text-gray-600">
-            Loading...
+            {/* Loading... */}
           </h4>
         }
       >
@@ -136,13 +148,18 @@ const Home = () => {
               </div>
             </div>
 
-            {posts.length > 0 ? (
-              posts.map((post) => <Post key={post.id} post={post} />)
-            ) : (
+            {posts && posts.map((post) => <Post key={post.id} post={post} />)}
+            {loading && (
               <>
+                {" "}
                 <PostSkeleton />
                 <PostSkeleton />
               </>
+            )}
+            {error && (
+              <p className="text-gray-500 text-center text-bold text-2xl pb-96 pt-12">
+                {error}
+              </p>
             )}
           </div>
           <HomeRightAside />

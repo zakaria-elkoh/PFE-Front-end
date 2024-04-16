@@ -22,12 +22,17 @@ const SignupForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    console.log(userData);
+
     const formData = new FormData();
     formData.append("name", userData.user_name);
-    formData.append("user_name", userData.user_name);
+    formData.append("user_name", userData.name);
+    formData.append("role_id", userData.role_id);
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("profile_image", profileImage);
+
+    console.log(formData);
 
     customAxios
       .post("/register", formData)
@@ -42,14 +47,13 @@ const SignupForm = () => {
       .catch((error) => {
         console.log(error);
       });
-
   };
 
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container flex items-center justify-center px-6 mx-auto">
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
-          <div className="text-center">
+          <div className="text-center mb-8">
             <h1 className="mt-4 text-2xl font-semibold tracking-wide text-center text-gray-800 capitalize md:text-4xl dark:text-white">
               Create Account
             </h1>
@@ -57,7 +61,53 @@ const SignupForm = () => {
               Get your free account now.
             </p>
           </div>
-          <div className="relative flex items-center mt-8">
+          <div className="bg-red-300">
+            <label
+              htmlFor="role"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Select an option
+            </label>
+            <select
+              id="role"
+              onChange={handleChange}
+              name="role_id"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option selected disabled>
+                I am a?
+              </option>
+              <option value="2">Lawyer</option>
+              <option value="3">User</option>
+            </select>
+          </div>
+          <div className="relative flex items-center mt-4">
+            <span className="absolute">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </span>
+
+            <input
+              type="text"
+              className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              placeholder="name"
+              name="name"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="relative flex items-center mt-4">
             <span className="absolute">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

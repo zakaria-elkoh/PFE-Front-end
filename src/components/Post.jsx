@@ -19,8 +19,10 @@ const Post = ({ post }) => {
 
     if (iconElement.classList.contains("fa-solid")) {
       removeLike(post_id);
+      setLikesCount(likes_count - 1);
     } else {
       storeLike(post_id);
+      setLikesCount(likes_count + 1);
     }
 
     iconElement.classList.toggle("fa-solid");
@@ -41,6 +43,8 @@ const Post = ({ post }) => {
   };
 
   const [likes_count, setLikesCount] = useState(post?.likes_count);
+  console.log(post);
+
   return (
     <div className="w-full mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800">
       <div className="p-3">
@@ -62,7 +66,7 @@ const Post = ({ post }) => {
               {post?.author?.name}
               <span className="px-1.5 relative bottom-1 text-gray-500">.</span>
               <span className="font-medium text-xs relative bottom-0.5 text-gray-500 dark:text-gray-200">
-                Lawyer
+                {post?.author?.roles == 'lawyer' ? 'Lawyer' : null}
               </span>
             </p>
             <span className="text-xs text-gray-600 dark:text-gray-300">
@@ -71,7 +75,6 @@ const Post = ({ post }) => {
           </div>
         </Link>
       </div>
-
       <div className="p-3 pb-6">
         <div>
           <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
@@ -79,17 +82,16 @@ const Post = ({ post }) => {
           </p>
         </div>
       </div>
-
-      <img className="object-cover w-full" src={post?.image} alt="Article" />
-
+      {post?.image && (
+        <img className="object-cover w-full" src={post?.image} alt="Article" />
+      )}
       <div className="py-3 px-4 border-b border-gray-200 text-gray-500 mx-auto grid grid-cols-2 text-sma">
-        <span className="leading-3"> 122 likes</span>
+        <span className="leading-3"> {likes_count} likes</span>
         <span className="leading-3 text-right">
           {" "}
           {post?.comments_count} comments
         </span>
       </div>
-
       <div className="p-1 grid grid-cols-3 text-center text-gray-600 font-semibold">
         <div
           onClick={(e) => handleLike(e, post?.id)}

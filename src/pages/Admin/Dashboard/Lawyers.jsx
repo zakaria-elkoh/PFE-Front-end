@@ -1,11 +1,98 @@
+import customAxios from "@/axios/customAxios";
+import LawyerTr from "@/components/shared/LawyerTr";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import UserSkeleton from "@/components/dashboardSkeletons/UserSkeleton";
+
 const Lawyers = () => {
+  // const fetchLawyers = async () => {
+  //   try {
+  //     const response = await customAxios.get("/admin/lawyers");
+  //     return response.data.data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
+
+  console.log(page);
+
+  const fetchLawyers = async (pageParam = 1) => {
+    try {
+      const response = await customAxios.get(
+        `/admin/lawyers?page=${pageParam}`
+      );
+      console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const {
+    data: lawyers,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["lawyers", page],
+    queryFn: () => fetchLawyers(page),
+  });
+
+  console.log(lawyers, error, isLoading, isError);
+
   return (
     <div className="h-[10000px] pt-10">
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow">
-        <div className="relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
+        <div className="flex bg-green-300 items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
           <h6 className="block antialiased tracking-normal font-sans text-base font-bold leading-relaxed text-gray-800">
             Lawyers Table
           </h6>
+          <div className="flex items-center gap-5 flex-grow bg-red-300">
+            <div className="relative max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
+              <input
+                type="search"
+                id="search-input"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="block w-full outline-none p-3 ps-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search..."
+                required
+              />
+              <button
+                type="submit"
+                id="search-btn"
+                name="search"
+                onClick={() => fetchLawyers(searchValue)}
+                className="text-white absolute end-2.5 bottom-2.5 shadow-sm bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Search
+              </button>
+            </div>
+            <select
+              id="select-category"
+              className="bg-gray-50 outline-none border shadow hover:shadow-md cursor-pointer border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+            >
+              <option value="all" selected>
+                All
+              </option>
+              <option value="Verified">Verified</option>
+              <option value="Banned">Banned</option>
+              <option value="Not Verified">Not Verified</option>
+            </select>
+          </div>
         </div>
         <div className="p-6 overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
@@ -32,295 +119,81 @@ const Lawyers = () => {
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400"></p>
+                  <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
+                    Action
+                  </p>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/team-2.jpeg"
-                      alt="John Michael"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        John Michael
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        john@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Manager
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Organization
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div
-                    className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-orange-600 to-orange-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
-                    // style="opacity: 1;"
-                  >
-                    <span className="">not verified</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    23/04/18
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/team-1.jpeg"
-                      alt="Alexa Liras"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        Alexa Liras
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        alexa@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Programator
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Developer
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-orange-600 to-orange-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
-                    <span className="">not verified</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    11/01/19
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/team-4.jpeg"
-                      alt="Laurent Perrier"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        Laurent Perrier
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        laurent@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Executive
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Projects
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div
-                    className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-blue-600 to-blue-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
-                    // style="opacity: 1;"
-                  >
-                    <span className="">verified</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    19/09/17
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/team-3.jpeg"
-                      alt="Michael Levi"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        Michael Levi
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        michael@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Programator
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Developer
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div
-                    className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
-                    // style="opacity: 1;"
-                  >
-                    <span className="">online</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    24/12/08
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/bruce-mars.jpeg"
-                      alt="Bruce Mars"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        Bruce Mars
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        bruce@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Manager
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Executive
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-red-600 to-red-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
-                    <span className="">banned</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    04/10/21
-                  </p>
-                </td>
-                <td className="py-3 px-5 border-b border-blue-gray-50">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-3 px-5 ">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src="/material-tailwind-dashboard-react/img/team-2.jpeg"
-                      alt="Alexander"
-                      className="inline-block relative object-cover object-center w-9 h-9 rounded-md"
-                    />
-                    <div>
-                      <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-                        Alexander
-                      </p>
-                      <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                        alexander@creative-tim.com
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-5 ">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    Programator
-                  </p>
-                  <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-                    Developer
-                  </p>
-                </td>
-                <td className="py-3 px-5 ">
-                  <div
-                    className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-blue-gray-600 to-blue-gray-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit"
-                    // style="opacity: 1;"
-                  >
-                    <span className="">offline</span>
-                  </div>
-                </td>
-                <td className="py-3 px-5 ">
-                  <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-                    14/09/20
-                  </p>
-                </td>
-                <td className="py-3 px-5 ">
-                  <a
-                    href="#"
-                    className="block antialiased font-sans text-xs font-semibold text-blue-gray-600"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
+              {isLoading && (
+                <>
+                  <UserSkeleton />
+                  <UserSkeleton />
+                  <UserSkeleton />
+                  <UserSkeleton />
+                  <UserSkeleton />
+                  <UserSkeleton />
+                </>
+              )}
+              {lawyers?.map((lawyer) => (
+                <LawyerTr key={lawyer.id} lawyer={lawyer} refetch={refetch} />
+              ))}
+              {isError && <p>Error: {error.message}</p>}
             </tbody>
           </table>
+          <div className="bg-re200 p-4">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setPage((prev) => (prev === 1 ? 1 : prev - 1))
+                    }
+                    disabled={true}
+                    className={
+                      page === 1
+                        ? `opacity-50 cursor-not-allowed`
+                        : `cursor-pointer`
+                    }
+                  />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(1)}
+                    className="cursor-pointer"
+                  >
+                    1
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(2)}
+                    className="cursor-pointer"
+                  >
+                    2
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(3)}
+                    className="cursor-pointer"
+                  >
+                    3
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setPage((prev) => prev + 1)}
+                    className="cursor-pointer"
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
         </div>
       </div>
     </div>

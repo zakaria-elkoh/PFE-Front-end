@@ -94,8 +94,14 @@ const ShowPost = ({ post_id }) => {
               alt="Article"
             />
             <div className="py-3 px-4 border-b border-gray-200 text-gray-500 mx-auto grid grid-cols-2 text-sma">
-              <span className="leading-3"> 122 likes</span>
-              <span className="leading-3 text-right"> 166 comments</span>
+              <span className="leading-3">
+                {" "}
+                {targetPost?.likes_count} likes
+              </span>
+              <span className="leading-3 text-right">
+                {" "}
+                {targetPost?.comments_count} comments
+              </span>
             </div>
             {postComments.length > 0 ? (
               postComments.map((comment) => (

@@ -1,17 +1,13 @@
 import Aside from "@/components/Aside/Aside";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/contexts/AuthContext";
-import { getFirstLetters } from "@/lib/utils";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
 
 const DashboardLayout = () => {
-  const { authUser } = useAuth();
-
   return (
     <div className="bg-gray-100 flex p-3">
-      {/* <h1>welcom to Dashboard</h1> */}
       <Aside />
       <div className="flex-1 px-2">
+        <Toaster position="top-center" />
         {/* <nav className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
           <p>Dashboard</p>
           <div className="flex items-center gap-3">
@@ -49,16 +45,15 @@ const DashboardLayout = () => {
               id="select-category"
               className="bg-gray-50 outline-none border shadow hover:shadow-md cursor-pointer border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
             >
-              <option value="all" selected>
+              <option defaultValue="all" selected>
                 All
               </option>
-              <option value="Verified">Verified</option>
-              <option value="Banned">Banned</option>
-              <option value="Not Verified">Not Verified</option>
+              <option defaultValue="Verified">Verified</option>
+              <option defaultValue="Banned">Banned</option>
+              <option defaultValue="Not Verified">Not Verified</option>
             </select>
           </div>
         </div>
-        {/* <DashboardNav /> */}
         <Outlet />
       </div>
     </div>

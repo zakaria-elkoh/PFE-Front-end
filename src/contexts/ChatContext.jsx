@@ -14,6 +14,7 @@ export const ChatProvider = ({ children }) => {
   const [currentChatUser, setCurrentChatUser] = useState({});
   const [currentChatMessages, setCurrentChatMessages] = useState([]);
 
+
   
 
   useEffect(() => {
@@ -28,10 +29,10 @@ export const ChatProvider = ({ children }) => {
         setMessagesIsLoading(false);
         console.log(error);
       });
-  }, [currentChatUser]);
-
-  useEffect(() => {
-    customAxios
+    }, [currentChatUser]);
+    
+    useEffect(() => {
+      customAxios
       .get(`/users/messages/users`)
       .then((res) => {
         setChatUsers(res.data.data);

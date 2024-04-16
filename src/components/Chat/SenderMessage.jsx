@@ -20,7 +20,9 @@ const SenderMessage = ({ message }) => {
           <span>{message?.message}</span>
         </div>
         <div className="pl-4">
-          <small className="text-gray-500 text-xs">{message?.created_at}</small>
+          <small className="text-gray-500 text-xs">
+            {message?.created_at}
+          </small>
         </div>
       </div>
     </div>

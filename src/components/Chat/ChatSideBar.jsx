@@ -44,6 +44,11 @@ const ChatSideBar = () => {
           .map((user, index) => (
             <SideBarUserProfile key={index} user={user} />
           ))}
+        {chatUsers.length == 0 && (
+          <p className="text-center font-bold text-gray-400 text-md mt-4">
+            No users found
+          </p>
+        )}
         {isLoading && (
           <>
             <MiniProfileSkeleton />

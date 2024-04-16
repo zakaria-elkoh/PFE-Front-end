@@ -11,6 +11,7 @@ import DashUsers from "./pages/Admin/Dashboard/Users";
 import Chat from "./pages/Chat";
 import UserProfile from "./pages/User/UserProfile";
 import Users from "./pages/Connect";
+import VerificationRequets from "./pages/Admin/Dashboard/VerificationRequests";
 
 const routes = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const routes = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { path: "statistic", element: <Statistic /> },
+      { path: "verification/requests", element: <VerificationRequets /> },
       { path: "lawyers", element: <Lawyers /> },
       { path: "users", element: <DashUsers /> },
     ],

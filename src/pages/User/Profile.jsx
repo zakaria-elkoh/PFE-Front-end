@@ -9,7 +9,6 @@ const Profile = () => {
   const [user, setUser] = useState({});
 
 
-
   const fetchUser = async () => {
     const response = await customAxios.get(`/users/${username}`);
     return response.data;

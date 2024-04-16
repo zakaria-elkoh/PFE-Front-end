@@ -4,12 +4,15 @@ import { getFirstLetters } from "@/lib/utils";
 import { useState } from "react";
 import customAxios from "@/axios/customAxios";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import BgPicture from "./Profile/BgPicture";
 
-const AddPost = () => {
+const AddPost = ({ setOpen }) => {
   const { authUser } = useAuth();
   const [postImage, setPostImage] = useState();
   const [postData, setPostData] = useState({});
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setPostData((prev) => ({
@@ -28,10 +31,6 @@ const AddPost = () => {
 
     const formData = new FormData();
     formData.append("description", finalPostData.description);
-    formData.append(
-      "title",
-      "ctrygvuibhjn dxtcfyugvibhjnkm dtcfyvgubhijnkm xctfygvhbjk"
-    );
     formData.append("post_image", finalPostData.post_image);
 
     console.log(formData);
@@ -41,6 +40,7 @@ const AddPost = () => {
       .then((res) => {
         console.log(res);
         setOpen(false);
+        navigate("/");
         toast.success("Post added with success.");
       })
       .catch((error) => {
@@ -56,7 +56,6 @@ const AddPost = () => {
           <AvatarImage src={authUser.profile_image} />
           <AvatarFallback>{getFirstLetters(authUser.name)}</AvatarFallback>
         </Avatar>
-
         <div className="ml-2 my-3 text-left">
           <h1 className="font-semibold text-gray-800 dark:text-white">
             {authUser.name}

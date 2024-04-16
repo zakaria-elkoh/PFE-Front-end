@@ -12,15 +12,16 @@ import {
 } from "./ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
 import { getFirstLetters } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 const ProfileNotificationDropdown = () => {
   const navigate = useNavigate();
   const { authUser, setAuthUser, setIsAuthenticated } = useAuth();
 
   return (
-    <div className="flex items-center mt-4 lg:mt-0">
+    <div className="flex items-center gap-5 mt-4 lg:mt-0">
       <a
-        className="mr-2 text-gray-800 cursor-pointer dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+        className=" text-gray-800 cursor-pointer dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
         tabIndex="0"
         role="link"
         aria-label="twitter link"
@@ -35,25 +36,43 @@ const ProfileNotificationDropdown = () => {
         </svg>
       </a>
 
-      <button
-        className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
-        aria-label="show notifications"
-      >
-        <svg
-          className="w-6 h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+      <Popover>
+        <PopoverTrigger className="bg-green-200 rounded-full">
+          <button
+            className="p-2 bg-gray-100 rounded-full  text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
+            aria-label="show notifications"
+          >
+            <svg
+              className="w-6 h-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="px-2 py-3">
+          <h2 className="mb-4">Place content for the popover here.</h2>
+          <div className="flex flex-col gap-2">
+            <div className="px-3 py-2 bg-gray-100 rounded-sm">
+              notifications 1
+            </div>
+            <div className="px-3 py-2 bg-gray-100 rounded-sm">
+              notifications 2
+            </div>
+            <div className="px-3 py-2 bg-gray-100 rounded-sm">
+              notifications 3
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
 
       <button
         type="button"

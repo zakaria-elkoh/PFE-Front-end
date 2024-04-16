@@ -14,9 +14,7 @@ const FollowerProfile = ({ user }) => {
           <div className="relative">
             <Avatar className="border-2 w-12 h-12 flex justify-center items-center font-bold">
               <AvatarImage src={user.profile_image} />
-              <AvatarFallback>
-                {getFirstLetters("zakaria elkoh")}
-              </AvatarFallback>
+              <AvatarFallback>{getFirstLetters(user.name)}</AvatarFallback>
             </Avatar>
             <div className="absolute top-[62%] left-[55%]">
               {user?.is_verified && <VerifiedIcon />}
@@ -29,10 +27,10 @@ const FollowerProfile = ({ user }) => {
               tabIndex="0"
               role="link"
             >
-              {user?.name} {"   "}
+              {user?.name}
             </a>
-            <span className="text-xs text-gray-600 dark:text-gray-300">
-              Lawyer
+            <span className="text-xs text-gray-600 text-left dark:text-gray-300">
+              {user?.roles == "lawyer" ? "Lawyer" : null}
             </span>
           </div>
         </Link>

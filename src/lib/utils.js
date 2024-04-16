@@ -10,7 +10,7 @@ const getFirstLetters = (fullName) => {
 
   let firstLetters = "";
 
-  for (let i = 0; i < words.length; i++) {
+  for (let i = 0; i < words?.length; i++) {
     firstLetters += words[i].charAt(0);
   }
 
