@@ -13,9 +13,7 @@ const ShowPost = ({ post_id }) => {
   const [postComments, setPostComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAddingComment, setIsAddingComment] = useState(false);
-  const [comment, setComment] = useState();
-
-  console.log("post idddddddd", post_id);
+  const [comment, setComment] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -39,7 +37,8 @@ const ShowPost = ({ post_id }) => {
       .then((res) => {
         setIsAddingComment(false);
         toast.success("Comment added with success.");
-        console.log(res);
+        console.log(res.data.data);
+        setPostComments([...postComments, res.data.data]);
         setComment("");
       })
       .catch((error) => {

@@ -1,5 +1,4 @@
 import customAxios from "@/axios/customAxios";
-import { toast } from "sonner";
 
 // save functions
 const storeSave = async (post_id) => {
@@ -80,7 +79,7 @@ const removeComment = async (id, commentId) => {
 const storeMessage = async (receiverId, message) => {
   try {
     const res = await customAxios.post(`/users/message`, { message: message, receiver_id: receiverId });
-    console.log(res.data);
+    return res.data.data
   } catch (error) {
     console.log(error);
   }

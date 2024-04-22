@@ -49,7 +49,7 @@ const routes = createBrowserRouter([
     element: <Users />,
   },
   {
-    path: "/profile/:username",
+    path: "/profile/:id",
     element: <Profile />,
   },
   {

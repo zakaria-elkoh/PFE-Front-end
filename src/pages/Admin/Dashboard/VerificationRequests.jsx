@@ -48,7 +48,6 @@ const VerificationRequests = () => {
   };
 
   const handleReject = (request_id) => {
-    console.log("rejecttt", request_id);
     setIsLoadingRejection(true);
     customAxios
       .get("/admin/verification/requests/reject", {

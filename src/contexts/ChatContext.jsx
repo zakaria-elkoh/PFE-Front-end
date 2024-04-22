@@ -14,9 +14,6 @@ export const ChatProvider = ({ children }) => {
   const [currentChatUser, setCurrentChatUser] = useState({});
   const [currentChatMessages, setCurrentChatMessages] = useState([]);
 
-
-  
-
   useEffect(() => {
     setMessagesIsLoading(true);
     customAxios

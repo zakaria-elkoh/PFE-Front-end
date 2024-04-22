@@ -33,15 +33,21 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchValue, setSearchValue] = useState("");
+  // const [postsType, setPostsType] = useState("all");
 
   const [open, setOpen] = useState(false);
 
   const handleSearch = async () => {
+    const postsType = document.getElementById("select").value;
+    console.log(postsType, " || ", searchValue);
     setPosts([]);
     setLoading(true);
     try {
-      const res = await customAxios.get("/posts/search?search=" + searchValue);
+      const res = await customAxios.get(
+        "/posts/search?postsType=" + postsType + "&&search=" + searchValue
+      );
       setLoading(false);
+      console.log(res.data.data);
       setPosts(res.data.data);
     } catch (error) {
       setLoading(false);
@@ -53,15 +59,12 @@ const Home = () => {
   const fetchPosts = async () => {
     setPageNumber(pageNumber + 1);
     try {
-      const res = await customAxios.get("/posts?page=" + pageNumber);
+      const res = await customAxios.get("/posts");
       setLoading(false);
       setPosts(posts.concat(res.data.data));
       setError("");
-      console.log(res.data);
-      console.log("page number", pageNumber);
     } catch (error) {
       setLoading(false);
-      console.log(error);
       setError("Not found");
     }
   };
@@ -103,12 +106,15 @@ const Home = () => {
         <div className="containe flex max-w-7xl mx-auto">
           <HomeLeftAside />
           <div className="w-full md:w-5xl lg:w-2/4 mx-auto flex flex-col gap-2 px-0.5 lg:px-2">
-            <div className="flex gap-4 mb-4">
-              <Select className="">
-                <SelectTrigger className="max-w-[90px] shadow-sm hover:shadow px-2 h-full">
-                  <SelectValue placeholder="show" />
+            <div className="flex items-center gap-4 mb-4">
+              {/* <Select onChange={() => console.log("changed")} className="">
+                <SelectTrigger
+                  onChange={() => console.log("changed")}
+                  className="max-w-[90px] shadow-sm hover:shadow px-2 h-full"
+                >
+                  <SelectValue onChange={() => console.log("changed")} placeholder="show" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent onChange={() => console.log("changed")}>
                   <SelectItem value="all" className="pl-2">
                     All
                   </SelectItem>
@@ -116,7 +122,18 @@ const Home = () => {
                     I am following
                   </SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
+              <select
+                onChange={() => {
+                  // setPostsType(e.target.value);
+                  handleSearch();
+                }}
+                id="select"
+                className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block max-w-20 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="all">All</option>
+                <option value="following">My followings</option>
+              </select>
               {/* <div className="search flex-1 rounded-md overflow-hidden shadow-sm hover:shadow">
                 <input
                   type="text"
@@ -126,7 +143,7 @@ const Home = () => {
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
               </div> */}
-              <div className="relative max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
+              <div className="relative flex-1 max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
                 <input
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}

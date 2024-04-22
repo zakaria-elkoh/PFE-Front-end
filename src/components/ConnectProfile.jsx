@@ -7,7 +7,7 @@ const ConnectProfile = ({ user }) => {
     <div className="max-w-md mx-auto p-2 text-center bg-white rounded-lg shadow-md w-full">
       <div>
         <Link
-          to={`/profile/${user.user_name}`}
+          to={`/profile/${user?.id}`}
           className="flex flex-col items-center"
         >
           <div className="relative">
@@ -16,8 +16,6 @@ const ConnectProfile = ({ user }) => {
               src={user?.profile_image}
               alt="Avatar"
             />
-            {/* <div className="absolute top-[62%] left-[55%]">
-            </div> */}
           </div>
           <div className="flex flex-col ml-2 mt-2">
             <div
@@ -26,18 +24,12 @@ const ConnectProfile = ({ user }) => {
             >
               {user?.name} {"   "} {user?.is_verified && <VerifiedIcon />}
             </div>
-            <span className="text-md text-gray-500 dark:text-gray-300">
-              Lawyer
+            <span className="text-md text-gray-500 dark:text-gray-300 capitalize">
+              {user?.roles}
             </span>
           </div>
         </Link>
       </div>
-      {/* <Avatar className="border-2 w-24 h-24">
-            <AvatarImage src="https://picsum.photos/200" />
-            <AvatarFallback>{getFirstLetters("zakaria elkoh")}</AvatarFallback>
-          </Avatar>
-          <h2 className="text-center text-2xl font-semibold mt-3">John Doe</h2>
-          <p className="text-center text-gray-600 mt-1">Lawyer</p> */}
       <div className="flex justify-center">
         <buttn
           className="text-blue-500 border border-blue-400 rounded-md px-3 cursor-pointer hover:text-blue-700 mt-2"

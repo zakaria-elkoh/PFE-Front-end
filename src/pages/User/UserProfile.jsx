@@ -29,6 +29,7 @@ import ProfilePicture from "@/components/Profile/ProfilePicture";
 const UserProfile = () => {
   const [message, setMessage] = useState("");
   const [verityIsLoading, setVerifyIsLoading] = useState(false);
+  const { authUser } = useAuth();
 
   const getFollowers = async () => {
     customAxios.get(`/users/${authUser.id}/followers`).then((res) => {
@@ -38,7 +39,7 @@ const UserProfile = () => {
 
   const getAuthUser = async () => {
     try {
-      const response = await customAxios.get(`/user`);
+      const response = await customAxios.get(`/users/${authUser?.id}`);
       return response.data.data;
     } catch (error) {
       console.error(error);
@@ -46,7 +47,7 @@ const UserProfile = () => {
   };
 
   const {
-    data: authUser,
+    data: user,
     isLoading,
     isError,
     refetch,
@@ -54,6 +55,8 @@ const UserProfile = () => {
     queryKey: ["auth-user"],
     queryFn: getAuthUser,
   });
+
+  console.log("aaaa", authUser, isLoading, isError);
 
   const handleClick = async () => {
     try {
@@ -73,7 +76,10 @@ const UserProfile = () => {
       <Toaster position="top-center" />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">
-        <ProfilePicture profile_image={authUser?.profile_image} refetch={refetch} />
+        <ProfilePicture
+          profile_image={authUser?.profile_image}
+          refetch={refetch}
+        />
         <div className="mt-4">
           <h3 className="mb-1.5 flex items-center justify-center gap-2 capitalize text-2xl font-semibold text-black dark:text-white">
             {authUser?.name}

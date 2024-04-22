@@ -43,7 +43,6 @@ const Post = ({ post }) => {
   };
 
   const [likes_count, setLikesCount] = useState(post?.likes_count);
-  console.log(post);
 
   return (
     <div className="w-full mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800">
@@ -66,7 +65,7 @@ const Post = ({ post }) => {
               {post?.author?.name}
               <span className="px-1.5 relative bottom-1 text-gray-500">.</span>
               <span className="font-medium text-xs relative bottom-0.5 text-gray-500 dark:text-gray-200">
-                {post?.author?.roles == 'lawyer' ? 'Lawyer' : null}
+                {post?.author?.roles == "lawyer" ? "Lawyer" : null}
               </span>
             </p>
             <span className="text-xs text-gray-600 dark:text-gray-300">

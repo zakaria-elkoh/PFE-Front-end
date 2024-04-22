@@ -1,10 +1,18 @@
 import FollowerProfile from "./FollowerProfile";
 import { useQuery } from "@tanstack/react-query";
 import customAxios from "@/axios/customAxios";
+import { useAuth } from "@/contexts/AuthContext";
+import { useParams } from "react-router-dom";
 
 const Following = () => {
+  let user = useParams().id;
+
+  if (location.pathname === "/user/profile") {
+    user = useAuth().authUser.id;
+  }
+
   const getFollowing = async () => {
-    const response = await customAxios.get("/myFollowing");
+    const response = await customAxios.get("/" + user + "/following");
     return response.data.data;
   };
 

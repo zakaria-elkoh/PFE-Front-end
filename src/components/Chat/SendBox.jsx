@@ -4,11 +4,12 @@ import { useState } from "react";
 
 const SendBox = () => {
   const [message, setMessage] = useState("");
-  const { currentChatUser } = useChat();
+  const { currentChatUser, setCurrentChatMessages } = useChat();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    storeMessage(currentChatUser.id, message);
+    const data = await storeMessage(currentChatUser.id, message);
+    setCurrentChatMessages((prev) => [...prev, data]);
     setMessage("");
   };
 

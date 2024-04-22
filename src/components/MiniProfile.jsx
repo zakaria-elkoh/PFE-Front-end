@@ -2,12 +2,13 @@ import VerifiedIcon from "./shared/VerifiedIcon";
 
 import { removeFollow, storeFollow } from "@/services/http";
 import { Link } from "react-router-dom";
+import { set } from "zod";
 
-const MiniProfile = ({ user }) => {
+const MiniProfile = ({ user, refetch }) => {
   return (
     <div className="max-w-lg mx-auto p-2 bg-white rounded-lg shadow-md w-full">
       <div>
-        <Link to={`/profile/${user.user_name}`} className="flex items-center">
+        <Link to={`/profile/${user?.id}`} className="flex items-center">
           <div className="relative">
             <img
               className="object-cover h-12 w-12 rounded-full"
@@ -47,9 +48,13 @@ const MiniProfile = ({ user }) => {
             if (e.target.textContent === "Following") {
               e.target.textContent = "Follow";
               removeFollow(user?.id);
+              refetch();
             } else {
               e.target.textContent = "Following";
               storeFollow(user?.id);
+              setTimeout(() => {
+                refetch();
+              }, 1000);
             }
           }}
         >

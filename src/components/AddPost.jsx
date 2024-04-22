@@ -33,12 +33,9 @@ const AddPost = ({ setOpen }) => {
     formData.append("description", finalPostData.description);
     formData.append("post_image", finalPostData.post_image);
 
-    console.log(formData);
-
     customAxios
       .post("/posts", formData)
       .then((res) => {
-        console.log(res);
         setOpen(false);
         navigate("/");
         toast.success("Post added with success.");
