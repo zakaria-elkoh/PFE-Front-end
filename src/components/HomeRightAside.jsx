@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-import MiniProfile from "./MiniProfile";
 import customAxios from "@/axios/customAxios";
 import MiniProfileSkeleton from "./MiniProfileSkeleton";
 import { useQuery } from "@tanstack/react-query";
+import MiniProfile from "./MiniProfile";
 
 const HomeRightAside = () => {
-
   const fetchUsers = async () => {
     try {
       const response = await customAxios.get("/users");
+      console.log("hhhhh", response);
       return response.data.data;
     } catch (error) {
       console.error(error);
@@ -21,17 +20,20 @@ const HomeRightAside = () => {
     error,
     isLoading,
     isError,
-    refetch
+    refetch,
   } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
+  console.log("users", users);
 
   return (
     <aside className="w-1/4 px-1 hidden lg:flex flex-col gap-3">
       {error && <p className="text-red-500 text-center">{error}</p>}
-      {!error &&
-        users?.map((user) => <MiniProfile key={user.id} user={user} refetch={refetch} />)}
+      {users &&
+        users?.map((user) => (
+          <MiniProfile key={user.id} user={user} refetch={refetch} />
+        ))}
       {isLoading && (
         <>
           <MiniProfileSkeleton />

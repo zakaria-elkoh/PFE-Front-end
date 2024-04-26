@@ -1,4 +1,5 @@
 import customAxios from "@/axios/customAxios";
+import { Post } from "@/components";
 import Followers from "@/components/Followers";
 import Following from "@/components/Following";
 import PostSkeleton from "@/components/PostSkeleton";
@@ -6,40 +7,92 @@ import BgPicture from "@/components/Profile/BgPicture";
 import ProfilePicture from "@/components/Profile/ProfilePicture";
 import NotVerifiedIcon from "@/components/shared/NotVerifiedIcon";
 import VerifiedIcon from "@/components/shared/VerifiedIcon";
+import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
+import { removeFollow, storeFollow } from "@/services/http";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { id } = useParams();
+  const { authUser } = useAuth();
+  const navigate = useNavigate();
 
-  // const [user, setUser] = useState({});
+  useEffect(() => {
+    if (authUser.id == id) {
+      navigate('/user/profile');
+    }
+  }, [authUser.id, id]);
+
+  const getPosts = async () => {
+    try {
+      const response = await customAxios.get(`/user-posts/${user?.id}`);
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchUser = async () => {
-    const response = await customAxios.get(`/users/${id}`);
+    const response = await customAxios.get(`/user-by-id/${id}`);
     return response.data.data;
   };
 
   const {
     data: user,
-    error,
     isLoading,
     isError,
+    error,
     refetch,
   } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
   });
 
-  console.log("react query", user, error, isLoading, isError);
+  const {
+    data: posts,
+    isPostsLoading,
+    isPostsError,
+  } = useQuery({
+    queryKey: ["user-posts", user?.id],
+    queryFn: getPosts,
+  });
 
   return (
-    <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="overflow-hidden rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
       <Toaster position="top-center" />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">
         <ProfilePicture profile_image={user?.profile_image} refetch={refetch} />
+        <div className="flex items-center gap-2 max-w-2xl mx-auto justify-end -mt-16 mb-12">
+          <Link
+            to={`/chat/${user?.id}`}
+            className="bg-blue-500 text-white border border-blue-400 block rounded-md px-3 py-1 cursor-pointer"
+            onClick={() => {
+              console.log("message user");
+            }}
+          >
+            Message
+          </Link>
+          <buttn
+            className="text-blue-500 block border border-blue-400 rounded-md px-3 py-1 cursor-pointer hover:text-blue-700"
+            data-following="false"
+            onClick={(e) => {
+              if (e.target.textContent === "Following") {
+                e.target.textContent = "Follow";
+                removeFollow(user?.id);
+              } else {
+                e.target.textContent = "Following";
+                storeFollow(user?.id);
+              }
+            }}
+          >
+            {user?.is_followed ? "Following" : "Follow"}
+          </buttn>
+        </div>
         <div className="mt-4">
           <h3 className="mb-1.5 flex items-center justify-center gap-2 capitalize text-2xl font-semibold text-black dark:text-white">
             {user?.name}
@@ -237,38 +290,36 @@ const Profile = () => {
             <span className="text-sm">Following</span>
           </div>
         </div> */}
-          <div className="py-6 bg-green-300 flex justify-center">
-            <Tabs
-              defaultValue="account"
-              className="max-w-xl bg-orange-300 w-full"
-            >
+          <div className="py-6 flex justify-center">
+            <Tabs defaultValue="account" className="max-w-xl w-full">
               <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="posts">
+                <TabsTrigger value="posts" onClick={getPosts}>
                   {user?.posts_count}
                   <span className="text-sm">Posts</span>
                 </TabsTrigger>
-                <TabsTrigger
-                  value="followers"
-                  onClick={console.log("hello from")}
-                >
-                  {user?.followers_count}K
+                <TabsTrigger value="followers">
+                  {user?.followers_count}
                   <span className="text-sm">Followers</span>
                 </TabsTrigger>
                 <TabsTrigger value="following">
-                  {user?.following_count}120K{" "}
+                  {user?.following_count}
                   <span className="text-sm">Following</span>
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="posts">
-                <h3>Posts</h3>
-                <PostSkeleton />
+              <TabsContent
+                value="posts"
+                className="flex flex-col gap-3 text-left"
+              >
+                {isPostsLoading ? (
+                  <PostSkeleton />
+                ) : (
+                  posts?.map((post) => <Post key={post.id} post={post} />)
+                )}
               </TabsContent>
               <TabsContent value="followers">
-                <h3>Followers</h3>
                 <Followers />
               </TabsContent>
               <TabsContent value="following">
-                <h3>Following</h3>
                 <Following />
               </TabsContent>
             </Tabs>

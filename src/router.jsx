@@ -12,6 +12,8 @@ import Chat from "./pages/Chat";
 import UserProfile from "./pages/User/UserProfile";
 import Users from "./pages/Connect";
 import VerificationRequets from "./pages/Admin/Dashboard/VerificationRequests";
+import FavoriteAndSave from "./pages/FavoriteAndSave";
+import DashPosts from "./pages/Admin/Dashboard/DashPosts";
 
 const routes = createBrowserRouter([
   {
@@ -19,7 +21,7 @@ const routes = createBrowserRouter([
     element: <h1>not found</h1>,
   },
   {
-    path: "/chat",
+    path: "/chat/:id",
     element: <Chat />,
   },
   {
@@ -38,11 +40,16 @@ const routes = createBrowserRouter([
       { path: "verification/requests", element: <VerificationRequets /> },
       { path: "lawyers", element: <Lawyers /> },
       { path: "users", element: <DashUsers /> },
+      { path: "posts", element: <DashPosts /> },
     ],
   },
   {
     path: "user/profile",
     element: <UserProfile />,
+  },
+  {
+    path: "/user/favorate-saves",
+    element: <FavoriteAndSave />,
   },
   {
     path: "users",

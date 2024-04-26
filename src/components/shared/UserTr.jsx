@@ -1,6 +1,46 @@
-const UserTr = ({user}) => {
+import { banUser, unbanUser } from "@/services/http";
+import { toast } from "sonner";
 
-    const isVerified = user.is_verified;
+const UserTr = ({ user, refetch }) => {
+  // const isVerified = user.is_verified;
+
+  const handleBan = async (e) => {
+    if (e.target.innerText === "Ban") {
+      const res = banUser(user.id);
+
+      if (res.error) {
+        return toast.error(res.error);
+      }
+
+      refetch();
+
+      toast.promise(res, {
+        loading: `Banning ${user.name}`,
+        success: () => {
+          return `${user.name} has been banned`;
+        },
+        error: "Error",
+      });
+    } else if (e.target.innerText === "Unban") {
+      const res = unbanUser(user.id);
+
+      if (res.error) {
+        return toast.error(res.error);
+      }
+
+      refetch();
+
+      toast.promise(res, {
+        loading: `Unbanning ${user.name}`,
+        success: () => {
+          return `${user.name} has been unbanned`;
+        },
+        error: "Error",
+      });
+
+      console.log(res);
+    }
+  };
 
   return (
     <tr>
@@ -16,25 +56,26 @@ const UserTr = ({user}) => {
               {user.name}
             </p>
             <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-              {user.email}
+              {user.user_name}
             </p>
           </div>
         </div>
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">
         <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-          {user.name}
+          {user.email}
         </p>
         <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
           Organization
         </p>
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">
-        {/* <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-red-600 to-red-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
-        <span className="">banned</span>
-      </div> */}
-        {isVerified ? (
-          <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-green-600 to-green-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
+        {user?.is_banned ? (
+          <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-red-600 to-red-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
+            <span className="">banned</span>
+          </div>
+        ) : user?.is_verified ? (
+          <div className="relative grid items-center font-sans uppercase whitespace-nowrap select-none bg-gradient-to-tr from-blue-600 to-blue-400 text-white rounded-lg py-0.5 px-2 text-[11px] font-medium w-fit">
             <span className="">verified</span>
           </div>
         ) : (
@@ -45,7 +86,7 @@ const UserTr = ({user}) => {
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">
         <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
-          23/04/18
+          {user.joined_at}
         </p>
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">
@@ -55,6 +96,12 @@ const UserTr = ({user}) => {
         >
           Edit
         </a>
+        <buttn
+          onClick={handleBan}
+          className="block antialiased cursor-pointer hover:underline font-sans text-xs font-semibold text-blue-gray-600"
+        >
+          {user?.is_banned ? "Unban" : "Ban"}
+        </buttn>
       </td>
     </tr>
   );

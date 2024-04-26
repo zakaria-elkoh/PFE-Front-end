@@ -26,10 +26,10 @@ export const ChatProvider = ({ children }) => {
         setMessagesIsLoading(false);
         console.log(error);
       });
-    }, [currentChatUser]);
-    
-    useEffect(() => {
-      customAxios
+  }, [currentChatUser]);
+
+  useEffect(() => {
+    customAxios
       .get(`/users/messages/users`)
       .then((res) => {
         setChatUsers(res.data.data);

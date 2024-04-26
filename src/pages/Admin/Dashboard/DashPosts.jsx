@@ -12,19 +12,15 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import UserSkeleton from "@/components/dashboardSkeletons/UserSkeleton";
+import PostTr from "@/components/shared/PostTr";
 
-const Lawyers = () => {
-
+const DashPosts = () => {
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
 
-  console.log(page);
-
-  const fetchLawyers = async (pageParam = 1) => {
+  const fetchPosts = async (pageParam = 1) => {
     try {
-      const response = await customAxios.get(
-        `/admin/lawyers?page=${pageParam}`
-      );
+      const response = await customAxios.get(`/admin/posts?page=${pageParam}`);
       console.log(response.data.data);
       return response.data.data;
     } catch (error) {
@@ -33,24 +29,24 @@ const Lawyers = () => {
   };
 
   const {
-    data: lawyers,
+    data: posts,
     error,
     isLoading,
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["lawyers", page],
-    queryFn: () => fetchLawyers(page),
+    queryKey: ["posts", page],
+    queryFn: () => fetchPosts(page),
   });
 
-  console.log(lawyers, error, isLoading, isError);
+  console.log(posts, error, isLoading, isError);
 
   return (
     <div className="h-[10000px] pt-10">
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow">
         <div className="flex bg-green-300 items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
           <h6 className="block antialiased tracking-normal font-sans text-base font-bold leading-relaxed text-gray-800">
-            Lawyers Table
+            Posts Table
           </h6>
           <div className="flex items-center gap-5 flex-grow bg-red-300">
             <div className="relative max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
@@ -67,7 +63,7 @@ const Lawyers = () => {
                 type="submit"
                 id="search-btn"
                 name="search"
-                onClick={() => fetchLawyers(searchValue)}
+                onClick={() => fetchPosts(searchValue)}
                 className="text-white absolute end-2.5 bottom-2.5 shadow-sm bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Search
@@ -92,22 +88,17 @@ const Lawyers = () => {
               <tr>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                   <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    Lawyer
+                    Id
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                   <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    function
+                    Description
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                   <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    status
-                  </p>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    employed
+                    User
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
@@ -128,8 +119,8 @@ const Lawyers = () => {
                   <UserSkeleton />
                 </>
               )}
-              {lawyers?.map((lawyer) => (
-                <LawyerTr key={lawyer.id} lawyer={lawyer} refetch={refetch} />
+              {posts?.map((post) => (
+                <PostTr key={post.id} post={post} refetch={refetch} />
               ))}
               {isError && <p>Error: {error.message}</p>}
             </tbody>
@@ -192,4 +183,4 @@ const Lawyers = () => {
   );
 };
 
-export default Lawyers;
+export default DashPosts;

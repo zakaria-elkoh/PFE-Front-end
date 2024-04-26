@@ -22,7 +22,7 @@ const Following = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["following"],
+    queryKey: ["following", user],
     queryFn: getFollowing,
   });
 

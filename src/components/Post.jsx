@@ -12,8 +12,12 @@ import { getFirstLetters } from "@/lib/utils";
 import { storeLike, removeLike, storeSave, removeSave } from "@/services/http";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import EditDeletePopOver from "./EditDeletePopOver";
 
 const Post = ({ post }) => {
+  const { authUser } = useAuth();
+
   const handleLike = (e, post_id) => {
     const iconElement = e.currentTarget.querySelector("i");
 
@@ -46,9 +50,9 @@ const Post = ({ post }) => {
 
   return (
     <div className="w-full mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800">
-      <div className="p-3">
+      <div className="p-3 flex justify-between">
         <Link
-          to={`/profile/${post?.author?.user_name}`}
+          to={`/profile/${post?.author?.id}`}
           className="flex items-center w-fit"
         >
           <Avatar className="border-2 w-11 h-11 grid place-items-center">
@@ -73,6 +77,9 @@ const Post = ({ post }) => {
             </span>
           </div>
         </Link>
+        {post?.author?.id === authUser?.id && (
+          <EditDeletePopOver post={post} />
+        )}
       </div>
       <div className="p-3 pb-6">
         <div>

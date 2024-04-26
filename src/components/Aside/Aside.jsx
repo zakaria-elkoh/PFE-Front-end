@@ -18,6 +18,7 @@ const Aside = () => {
         />
         <Li to={"/admin/dashboard/lawyers"} liName="Lawyers" />
         <Li to={"/admin/dashboard/users"} liName="Users" />
+        <Li to={"/admin/dashboard/posts"} liName="Posts" />
         {/* <Li to={"/"} liName="My saves" />
         <Li to={"/"} liName="Home" /> */}
         <Li to={"/"} liName="Home" />

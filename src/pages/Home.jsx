@@ -58,8 +58,9 @@ const Home = () => {
 
   const fetchPosts = async () => {
     setPageNumber(pageNumber + 1);
+    console.log(pageNumber);
     try {
-      const res = await customAxios.get("/posts");
+      const res = await customAxios.get(`/posts?page=${pageNumber}`);
       setLoading(false);
       setPosts(posts.concat(res.data.data));
       setError("");
@@ -107,25 +108,8 @@ const Home = () => {
           <HomeLeftAside />
           <div className="w-full md:w-5xl lg:w-2/4 mx-auto flex flex-col gap-2 px-0.5 lg:px-2">
             <div className="flex items-center gap-4 mb-4">
-              {/* <Select onChange={() => console.log("changed")} className="">
-                <SelectTrigger
-                  onChange={() => console.log("changed")}
-                  className="max-w-[90px] shadow-sm hover:shadow px-2 h-full"
-                >
-                  <SelectValue onChange={() => console.log("changed")} placeholder="show" />
-                </SelectTrigger>
-                <SelectContent onChange={() => console.log("changed")}>
-                  <SelectItem value="all" className="pl-2">
-                    All
-                  </SelectItem>
-                  <SelectItem value="following" className="pl-2">
-                    I am following
-                  </SelectItem>
-                </SelectContent>
-              </Select> */}
               <select
                 onChange={() => {
-                  // setPostsType(e.target.value);
                   handleSearch();
                 }}
                 id="select"
@@ -134,15 +118,6 @@ const Home = () => {
                 <option value="all">All</option>
                 <option value="following">My followings</option>
               </select>
-              {/* <div className="search flex-1 rounded-md overflow-hidden shadow-sm hover:shadow">
-                <input
-                  type="text"
-                  className="outline-none block w-full bg-transparent border-b-2 border-gray-200 bg-white shadow hover:shadow-md rounded-t-sm py-2 px-3"
-                  placeholder="Search"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-              </div> */}
               <div className="relative flex-1 max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
                 <input
                   value={searchValue}

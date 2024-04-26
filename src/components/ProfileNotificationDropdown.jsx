@@ -106,6 +106,14 @@ const ProfileNotificationDropdown = () => {
                 My profile
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Link
+                to={"/user/favorate-saves"}
+                className="w-full h-full px-2 py-1.5"
+              >
+                My fave
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer px-2 py-1.5">
               Settings
             </DropdownMenuItem>

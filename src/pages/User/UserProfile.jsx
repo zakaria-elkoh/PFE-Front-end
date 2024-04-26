@@ -25,6 +25,16 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import BgPicture from "@/components/Profile/BgPicture";
 import ProfilePicture from "@/components/Profile/ProfilePicture";
+import { Post } from "@/components";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import EditProfileForm from "@/components/Profile/EditProfileForm";
 
 const UserProfile = () => {
   const [message, setMessage] = useState("");
@@ -37,14 +47,38 @@ const UserProfile = () => {
     });
   };
 
-  const getAuthUser = async () => {
+  const getPosts = async () => {
     try {
-      const response = await customAxios.get(`/users/${authUser?.id}`);
+      const response = await customAxios.get(`/user-posts/${authUser?.id}`);
+      console.log(
+        "this is the data that are coming from the backend",
+        response.data.data
+      );
       return response.data.data;
     } catch (error) {
       console.error(error);
     }
   };
+
+  const getAuthUser = async () => {
+    try {
+      const response = await customAxios.get(`/auth-user`);
+      console.log("lllll", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const {
+    data: posts,
+    isPostsLoading,
+    isPostsError,
+    refetch: refetchPosts,
+  } = useQuery({
+    queryKey: ["user-posts"],
+    queryFn: getPosts,
+  });
 
   const {
     data: user,
@@ -55,8 +89,6 @@ const UserProfile = () => {
     queryKey: ["auth-user"],
     queryFn: getAuthUser,
   });
-
-  console.log("aaaa", authUser, isLoading, isError);
 
   const handleClick = async () => {
     try {
@@ -72,21 +104,37 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="overflow-hidden rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
       <Toaster position="top-center" />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">
         <ProfilePicture
-          profile_image={authUser?.profile_image}
-          refetch={refetch}
+          profile_image={user?.profile_image}
+          refetchPosts={refetchPosts}
         />
+        <div className="">
+          {/* edit profile */}
+          <Dialog>
+            <DialogTrigger className="">
+              <i className="fa-solid fa-pen-to-square text-xl text-gray-600"></i>
+            </DialogTrigger>
+            <DialogContent className="p-0">
+              <DialogHeader>
+                {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
+                <DialogDescription>
+                  <EditProfileForm user={user} />
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
         <div className="mt-4">
           <h3 className="mb-1.5 flex items-center justify-center gap-2 capitalize text-2xl font-semibold text-black dark:text-white">
-            {authUser?.name}
+            {user?.name}
             <div className="">
-              {authUser?.is_verified == "pending" ? (
+              {user?.is_verified == "pending" ? (
                 <NotVerifiedIcon />
-              ) : authUser?.is_verified === true ? (
+              ) : user?.is_verified === true ? (
                 <VerifiedIcon />
               ) : (
                 <AlertDialog>
@@ -122,20 +170,14 @@ const UserProfile = () => {
             </div>
           </h3>
           <p className="font-medium text-xs text-gray-500">
-            Joined at {authUser?.joined_at}
+            Joined at {user?.joined_at}
           </p>
 
           <div className="mx-auto my-10 max-w-2xl max-w-180">
             <h4 className="font-bold text-lg lg:text-xl text-black dark:text-white">
               About Me
             </h4>
-            <p className="mt-4.5 text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque posuere fermentum urna, eu condimentum mauris tempus
-              ut. Donec fermentum blandit aliquet. Etiam dictum dapibus
-              ultricies. Sed vel aliquet libero. Nunc a augue fermentum,
-              pharetra ligula sed, aliquam lacus.
-            </p>
+            <p className="mt-4.5 text-gray-600">{user?.bio}</p>
           </div>
 
           <div className="mt-6.5">
@@ -291,55 +333,36 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* <div className="mx-auto max-w-2xl mt-8 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
-            <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-              <span className="font-semibold text-black dark:text-white">
-                {authUser.posts_count}
-              </span>
-              <span className="text-sm">Posts</span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-              <span className="font-semibold text-black dark:text-white">
-                {authUser.followers_count}K
-              </span>
-              <span className="text-sm">Followers</span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
-              <span className="font-semibold text-black dark:text-white">
-                {authUser.following_count} K
-              </span>
-              <span className="text-sm">Following</span>
-            </div>
-          </div> */}
-          <div className="py-6 bg-green-300 flex justify-center">
-            <Tabs
-              defaultValue="account"
-              className="max-w-xl bg-orange-300 w-full"
-            >
+          <div className="py-6 flex justify-center">
+            <Tabs defaultValue="account" className="max-w-xl w-full">
               <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="posts">
-                  {authUser?.posts_count}
-                  <span className="text-sm">Posts</span>
+                <TabsTrigger value="posts" onClick={getPosts}>
+                  <span className="text-sm">
+                    My Posts ({user?.posts_count})
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger value="followers" onClick={getFollowers}>
-                  {authUser?.followers_count}K
-                  <span className="text-sm">Followers</span>
+                  <span className="text-sm">
+                    My Followers ({user?.followers_count})
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger value="following">
-                  {authUser?.following_count}120K{" "}
-                  <span className="text-sm">Following</span>
+                  <span className="text-sm">
+                    My Following ({user?.following_count})
+                  </span>
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="posts">
-                <h3>Posts</h3>
-                <PostSkeleton />
+              <TabsContent value="posts" className="flex flex-col gap-2">
+                {isPostsLoading ? (
+                  <PostSkeleton />
+                ) : (
+                  posts?.map((post) => <Post key={post.id} post={post} />)
+                )}
               </TabsContent>
               <TabsContent value="followers">
-                <h3>Followers</h3>
                 <Followers />
               </TabsContent>
               <TabsContent value="following">
-                <h3>Following</h3>
                 <Following />
               </TabsContent>
             </Tabs>

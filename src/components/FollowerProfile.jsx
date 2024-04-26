@@ -10,7 +10,7 @@ const FollowerProfile = ({ user }) => {
   return (
     <div className="flex items-center max-w-lg mx-auto p-2 bg-white rounded-lg shadow-md w-full ">
       <div className="flex-1">
-        <Link to={`/profile/${user.user_name}`} className="flex items-center">
+        <Link to={`/profile/${user.id}`} className="flex items-center">
           <div className="relative">
             <Avatar className="border-2 w-12 h-12 flex justify-center items-center font-bold">
               <AvatarImage src={user.profile_image} />

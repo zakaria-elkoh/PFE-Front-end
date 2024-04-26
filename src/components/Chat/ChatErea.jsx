@@ -5,10 +5,26 @@ import { ScrollArea } from "../ui/scroll-area";
 import { useChat } from "@/contexts/ChatContext";
 import { useAuth } from "@/contexts/AuthContext";
 import ChatSkeleton from "./ChatSkeleton";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import customAxios from "@/axios/customAxios";
 
 const ChatErea = () => {
   const { currentChatUser, currentChatMessages, messagesIsLoading } = useChat();
   const { authUser } = useAuth();
+  const id = useParams();
+
+  useEffect(() => {
+    console.log("this is the id", id.id);
+    customAxios
+      .get(`/users/${id.id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id.id]);
 
   const chatArea = document.querySelector(".divdiv");
   window.onload = () => {
@@ -25,7 +41,9 @@ const ChatErea = () => {
       <div className="messages flex-1 bg-white shadow rounded-lg">
         {currentChatUser && currentChatMessages && (
           <ScrollArea className="messages h-[600px] rounded-md border p-4">
-            <div className="divdiv">{messagesIsLoading && <ChatSkeleton />}</div>
+            <div className="divdiv">
+              {messagesIsLoading && <ChatSkeleton />}
+            </div>
             <div className="divdiv">
               {currentChatMessages.map((message, index) => {
                 return message.sender_id !== authUser.id ? (

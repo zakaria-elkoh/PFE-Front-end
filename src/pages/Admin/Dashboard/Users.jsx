@@ -2,11 +2,18 @@ import customAxios from "@/axios/customAxios";
 import UserSkeleton from "@/components/dashboardSkeletons/UserSkeleton";
 import UserTr from "@/components/shared/UserTr";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const Users = () => {
-  const fetchLawyers = async () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
+
+  console.log(page);
+
+  const fetchUsers = async (pageParam = 1) => {
     try {
-      const response = await customAxios.get("/admin/users");
+      const response = await customAxios.get(`/admin/users?page=${pageParam}`);
+      console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       console.error(error);
@@ -18,9 +25,10 @@ const Users = () => {
     error,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
-    queryKey: ["lawyers"],
-    queryFn: fetchLawyers,
+    queryKey: ["users", page],
+    queryFn: () => fetchUsers(page),
   });
 
   return (
@@ -71,7 +79,7 @@ const Users = () => {
                 </>
               )}
               {users &&
-                users.map((user) => <UserTr key={user.id} user={user} />)}
+                users.map((user) => <UserTr key={user.id} user={user} refetch={refetch} />)}
             </tbody>
           </table>
         </div>
