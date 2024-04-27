@@ -21,7 +21,7 @@ const routes = createBrowserRouter([
     element: <h1>not found</h1>,
   },
   {
-    path: "/chat/:id",
+    path: "/chat/:id?",
     element: <Chat />,
   },
   {

@@ -13,8 +13,9 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import customAxios from "@/axios/customAxios";
+import { toast } from "sonner";
 
-const EditProfileForm = ({ user }) => {
+const EditProfileForm = ({ user, setOpen, refetch }) => {
   const [newProfileData, setNewProfileData] = useState({
     user_name: user?.user_name,
     name: user?.name,
@@ -40,8 +41,13 @@ const EditProfileForm = ({ user }) => {
       `/profile/updated/${user.id}`,
       newProfileData
     );
+    refetch();
+    toast.success("Your profile has been updated with success.");
+    setOpen(false);
     console.log(res);
   };
+
+  console.log(newProfileData);
 
   return (
     <Card className="w-full max-w-lg border-0 p-0">

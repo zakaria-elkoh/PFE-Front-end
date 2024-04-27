@@ -40,6 +40,7 @@ const UserProfile = () => {
   const [message, setMessage] = useState("");
   const [verityIsLoading, setVerifyIsLoading] = useState(false);
   const { authUser } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const getFollowers = async () => {
     customAxios.get(`/users/${authUser.id}/followers`).then((res) => {
@@ -63,7 +64,6 @@ const UserProfile = () => {
   const getAuthUser = async () => {
     try {
       const response = await customAxios.get(`/auth-user`);
-      console.log("lllll", response.data.data);
       return response.data.data;
     } catch (error) {
       console.error(error);
@@ -108,13 +108,10 @@ const UserProfile = () => {
       <Toaster position="top-center" />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">
-        <ProfilePicture
-          profile_image={user?.profile_image}
-          refetchPosts={refetchPosts}
-        />
+        <ProfilePicture profile_image={user?.profile_image} refetch={refetch} />
         <div className="">
           {/* edit profile */}
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="">
               <i className="fa-solid fa-pen-to-square text-xl text-gray-600"></i>
             </DialogTrigger>
@@ -122,7 +119,11 @@ const UserProfile = () => {
               <DialogHeader>
                 {/* <DialogTitle>Are you absolutely sure?</DialogTitle> */}
                 <DialogDescription>
-                  <EditProfileForm user={user} />
+                  <EditProfileForm
+                    user={user}
+                    setOpen={setOpen}
+                    refetch={refetch}
+                  />
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>

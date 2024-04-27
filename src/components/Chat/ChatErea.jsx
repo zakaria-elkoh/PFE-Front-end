@@ -10,16 +10,17 @@ import { useEffect } from "react";
 import customAxios from "@/axios/customAxios";
 
 const ChatErea = () => {
-  const { currentChatUser, currentChatMessages, messagesIsLoading } = useChat();
+  const { currentChatUser, setCurrentChatUser, currentChatMessages, messagesIsLoading } = useChat();
   const { authUser } = useAuth();
   const id = useParams();
 
   useEffect(() => {
     console.log("this is the id", id.id);
     customAxios
-      .get(`/users/${id.id}`)
+      .get(`/user-by-id/${id.id}`)
       .then((res) => {
-        console.log(res);
+        console.log("chat ressss", res.data.data);
+        setCurrentChatUser(res.data.data);
       })
       .catch((error) => {
         console.log(error);

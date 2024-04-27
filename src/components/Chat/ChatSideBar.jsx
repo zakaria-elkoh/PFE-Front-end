@@ -7,26 +7,6 @@ const ChatSideBar = () => {
   const { chatUsers, isLoading } = useChat();
   const [searchValue, setSearchValue] = useState("");
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // setSearchValue(e.target.value);
-    // setSearchValue(e.target.value);
-    // setFilteredUsers(
-    //   chatUsers.filter((user) => user.name.includes(searchValue))
-    // );
-    // if (!searchValue) setFilteredUsers(chatUsers);
-  };
-  console.log(searchValue, "searchValue");
-
-  // useContext(() => {
-  //   console.log("changed");
-  //   setFilteredUsers(
-  //     chatUsers.filter((user) => user.name.includes(searchValue))
-  //   );
-  //   setFilteredUsers(chatUsers);
-  //   console.log(filteredUsers, searchValue);
-  // }, [searchValue]);
-
   return (
     <div className="sidebar hidden lg:flex w-1/3 flex-2 flex-col pr-2">
       <div className="search flex-2 pb-2 px-2">
@@ -44,7 +24,7 @@ const ChatSideBar = () => {
           .map((user, index) => (
             <SideBarUserProfile key={index} user={user} />
           ))}
-        {chatUsers.length == 0 && (
+        {(chatUsers.length == 0 && !isLoading) && (
           <p className="text-center font-bold text-gray-400 text-md mt-4">
             No users found
           </p>

@@ -5,14 +5,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useParams } from "react-router-dom";
 
 const Following = () => {
-  let user = useParams().id;
+  let user_id = useParams().id;
 
   if (location.pathname === "/user/profile") {
-    user = useAuth().authUser.id;
+    user_id = useAuth().authUser.id;
   }
 
   const getFollowing = async () => {
-    const response = await customAxios.get("/" + user + "/following");
+    const response = await customAxios.get("/" + user_id + "/following");
     return response.data.data;
   };
 
@@ -22,7 +22,7 @@ const Following = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["following", user],
+    queryKey: ["following", user_id],
     queryFn: getFollowing,
   });
 

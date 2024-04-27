@@ -23,7 +23,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (authUser.id == id) {
-      navigate('/user/profile');
+      navigate("/user/profile");
     }
   }, [authUser.id, id]);
 
@@ -38,6 +38,7 @@ const Profile = () => {
 
   const fetchUser = async () => {
     const response = await customAxios.get(`/user-by-id/${id}`);
+    console.log(response);
     return response.data.data;
   };
 
@@ -108,13 +109,7 @@ const Profile = () => {
             <h4 className="font-bold text-lg lg:text-xl text-black dark:text-white">
               About Me
             </h4>
-            <p className="mt-4.5 text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque posuere fermentum urna, eu condimentum mauris tempus
-              ut. Donec fermentum blandit aliquet. Etiam dictum dapibus
-              ultricies. Sed vel aliquet libero. Nunc a augue fermentum,
-              pharetra ligula sed, aliquam lacus.
-            </p>
+            <p className="mt-4.5 text-gray-600">{user?.bio}</p>
           </div>
 
           <div className="mt-6.5">
@@ -294,16 +289,19 @@ const Profile = () => {
             <Tabs defaultValue="account" className="max-w-xl w-full">
               <TabsList className="grid grid-cols-3">
                 <TabsTrigger value="posts" onClick={getPosts}>
-                  {user?.posts_count}
-                  <span className="text-sm">Posts</span>
+                  <span className="text-sm">
+                    Posts ({user?.posts_count})
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger value="followers">
-                  {user?.followers_count}
-                  <span className="text-sm">Followers</span>
+                  <span className="text-sm">
+                    Followers ({user?.followers_count})
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger value="following">
-                  {user?.following_count}
-                  <span className="text-sm">Following</span>
+                  <span className="text-sm">
+                    Following ({user?.following_count})
+                  </span>
                 </TabsTrigger>
               </TabsList>
               <TabsContent

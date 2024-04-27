@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
-  const { isAuthenticated, authUser } = useAuth();
+  const { isAuthenticated, authUser, setAuthUser } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -70,7 +70,19 @@ const Home = () => {
     }
   };
 
+  const refreshAuthUser = async () => {
+    try {
+      const res = await customAxios.get("/user");
+      console.log("refetch auth user", res.data.data);
+      setAuthUser(res.data.data);
+      localStorage.setItem("auth_user", JSON.stringify(res.data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    refreshAuthUser();
     fetchPosts();
   }, []);
 
