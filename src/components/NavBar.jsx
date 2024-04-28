@@ -9,6 +9,8 @@ const NavBar = () => {
   const { isAuthenticated, setIsAuthenticated, authUser, setAuthUser } =
     useAuth();
 
+  console.log(authUser.roles == "admin");
+
   return (
     <nav
       // eslint-disable-next-line react/no-unknown-property
@@ -29,11 +31,22 @@ const NavBar = () => {
             <li>
               <Link
                 className="block px-3 py-2 mx-1 mt-2 font-semibold text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                to={"/admin/dashboard/statistic"}
+                to={"/"}
               >
-                Dashboard
+                Home
               </Link>
             </li>
+            {authUser.roles == "admin" ? (
+              <li>
+                <Link
+                  className="block px-3 py-2 mx-1 mt-2 font-semibold text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  to={"/admin/dashboard/statistic"}
+                >
+                  Dashboard
+                </Link>
+              </li>
+            ) : null}
+
             <li>
               <Link
                 className="block px-3 py-2 mx-1 mt-2 font-semibold text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -47,7 +60,7 @@ const NavBar = () => {
                 className="block px-3 py-2 mx-1 mt-2 font-semibold text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                 to={"/user/profile"}
               >
-                Profile
+                My Profile
               </Link>
             </li>
             <li>

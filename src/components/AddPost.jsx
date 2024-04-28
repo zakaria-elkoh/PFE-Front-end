@@ -9,9 +9,9 @@ import BgPicture from "./Profile/BgPicture";
 
 const AddPost = ({ setOpen }) => {
   const { authUser } = useAuth();
-  const [postImage, setPostImage] = useState();
+  const [postImage, setPostImage] = useState(null);
   const [postData, setPostData] = useState({});
-  // const [open, setOpen] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,6 +21,8 @@ const AddPost = ({ setOpen }) => {
     }));
   };
 
+  console.log("image", postImage);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,6 +30,13 @@ const AddPost = ({ setOpen }) => {
       ...postData,
       post_image: postImage,
     };
+
+    if (!finalPostData.description || finalPostData.description.length < 30) {
+      setError("body must be at least 30 chars!");
+      return false;
+    } else {
+      setError(null);
+    }
 
     const formData = new FormData();
     formData.append("description", finalPostData.description);
@@ -68,11 +77,16 @@ const AddPost = ({ setOpen }) => {
           value={postData.description}
           onChange={handleChange}
         ></textarea>
+        {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
       </div>
       <div className="w-full mt-4 leading-loose text-gray-500 dark:text-gray-400">
         <input
           type="file"
-          className="w-full bg-red-200 h-24 cursor-pointer"
+          className="w-full h-24 cursor-pointer"
+          style={{
+            backgroundImage: `url(${postImage})`,
+            backgroundSize: "cover",
+          }}
           name="post_image"
           onChange={(e) => {
             setPostImage(e.target.files[0]);

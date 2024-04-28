@@ -16,6 +16,15 @@ import {
 import axios from "axios";
 import { toast } from "sonner";
 import UserSkeleton from "@/components/dashboardSkeletons/UserSkeleton";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const VerificationRequests = () => {
   const [page, setPage] = useState(1);
@@ -103,11 +112,11 @@ const VerificationRequests = () => {
   return (
     <div className="h-[10000px] pt-10">
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow">
-        <div className="flex bg-green-300 items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
+        <div className="flex items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
           <h6 className="block antialiased tracking-normal font-sans text-base font-bold leading-relaxed text-gray-800">
             Verification Requests
           </h6>
-          <div className="flex items-center gap-5 flex-grow bg-red-300">
+          {/* <div className="flex items-center gap-5 flex-grow bg-red-300">
             <div className="relative max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
               <input
                 type="search"
@@ -136,7 +145,7 @@ const VerificationRequests = () => {
               <option value="Banned">Banned</option>
               <option value="Not Verified">Not Verified</option>
             </select>
-          </div>
+          </div> */}
         </div>
         <div className="p-6 overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">
@@ -189,25 +198,57 @@ const VerificationRequests = () => {
               {isError && <p>Error: {error.message}</p>}
             </tbody>
           </table>
-          <div className="bg-green-300 flex gap-2">
-            <div
-              onClick={() => setPage(1)}
-              className="p-2 bg-red-400 cursor-pointer"
-            >
-              1
-            </div>
-            <div
-              onClick={() => setPage(2)}
-              className="p-2 bg-red-400 cursor-pointer"
-            >
-              2
-            </div>
-            <div
-              onClick={() => setPage(3)}
-              className="p-2 bg-red-400 cursor-pointer"
-            >
-              3
-            </div>
+          <div className="bg-re200 p-4">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      setPage((prev) => (prev === 1 ? 1 : prev - 1))
+                    }
+                    disabled={true}
+                    className={
+                      page === 1
+                        ? `opacity-50 cursor-not-allowed`
+                        : `cursor-pointer`
+                    }
+                  />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(1)}
+                    className="cursor-pointer"
+                  >
+                    1
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(2)}
+                    className="cursor-pointer"
+                  >
+                    2
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink
+                    onClick={() => setPage(3)}
+                    className="cursor-pointer"
+                  >
+                    3
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => setPage((prev) => prev + 1)}
+                    className="cursor-pointer"
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
         {/* pop ups */}

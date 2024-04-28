@@ -2,8 +2,21 @@ import { NavBar } from "@/components";
 import FavoritePosts from "@/components/davorite-saves/FavoritePosts";
 import SavedPosts from "@/components/davorite-saves/SavedPosts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FavoriteAndSave = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
+
   return (
     <>
       <NavBar />

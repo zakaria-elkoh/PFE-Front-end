@@ -4,6 +4,7 @@ import ConnectProfile from "@/components/ConnectProfile";
 import ConnectProfileSkeleton from "@/components/ConnectProfileSkeleton";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
 
 const Connect = () => {
   const [users, setUsers] = useState([]);
@@ -13,6 +14,17 @@ const Connect = () => {
   const [searchValue, setSearchValue] = useState("");
   // const [userType, setUserType] = useState("all");
   const [hasMore, setHasMore] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
 
   const fetchUsers = async () => {
     setPageNumber((prev) => prev + 1);
@@ -62,7 +74,7 @@ const Connect = () => {
   return (
     <main className="bg-[#ededed]">
       <NavBar />
-      <div className="max-w-screen-md mx-auto flex justify-between items-center gap-4 mt-6 bg-green-200">
+      <div className="max-w-screen-md mx-auto flex justify-between items-center gap-4 mt-6">
         {/* <Select className="">
           <SelectTrigger
             onClick={() => console.log("sdafsfa")}

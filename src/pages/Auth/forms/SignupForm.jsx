@@ -1,6 +1,7 @@
 import customAxios from "@/axios/customAxios";
 import { useAuth } from "@/contexts/AuthContext";
 import { setUserContext } from "@/lib/api";
+import signUpSchema from "@/lib/validations/signUpSchema";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,6 +11,8 @@ const SignupForm = () => {
   const [userData, setUserData] = useState({});
   const [profileImage, setProfileImage] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userNameIsToken, setUserNameIsToken] = useState("");
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setUserData((prev) => ({
@@ -18,6 +21,19 @@ const SignupForm = () => {
     }));
   };
 
+  const validate = () => {
+    try {
+      signUpSchema.parse(userData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      setErrors(error.formErrors.fieldErrors);
+      return false;
+    }
+  };
+
+  console.log("heere are the errors: ", errors);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -25,28 +41,30 @@ const SignupForm = () => {
     console.log(userData);
 
     const formData = new FormData();
-    formData.append("name", userData.user_name);
-    formData.append("user_name", userData.name);
+    formData.append("name", userData.name);
+    formData.append("user_name", userData.user_name);
     formData.append("role_id", userData.role_id);
     formData.append("email", userData.email);
     formData.append("password", userData.password);
     formData.append("profile_image", profileImage);
 
-    console.log(formData);
-
-    customAxios
-      .post("/register", formData)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("access_token", res.data.token);
-        localStorage.setItem("auth_user", JSON.stringify(res.data.user));
-        setUserContext(setAuthUser, setIsAuthenticated);
-        setIsSubmitting(false);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (validate(userData)) {
+      customAxios
+        .post("/register", formData)
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("access_token", res.data.token);
+          localStorage.setItem("auth_user", JSON.stringify(res.data.user));
+          setUserContext(setAuthUser, setIsAuthenticated);
+          setIsSubmitting(false);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+          setUserNameIsToken(error.response.data.message);
+          console.log(errors.userNameIsToken);
+        });
+    }
   };
 
   return (
@@ -61,7 +79,7 @@ const SignupForm = () => {
               Get your free account now.
             </p>
           </div>
-          <div className="bg-red-300">
+          <div className="">
             <label
               htmlFor="role"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -80,6 +98,7 @@ const SignupForm = () => {
               <option value="2">Lawyer</option>
               <option value="3">User</option>
             </select>
+            <span className="text-red-300 text-sm">{errors.role_id}</span>
           </div>
           <div className="relative flex items-center mt-4">
             <span className="absolute">
@@ -107,6 +126,7 @@ const SignupForm = () => {
               onChange={handleChange}
             />
           </div>
+          <span className="text-red-300 text-sm">{errors.name}</span>
           <div className="relative flex items-center mt-4">
             <span className="absolute">
               <svg
@@ -133,6 +153,8 @@ const SignupForm = () => {
               onChange={handleChange}
             />
           </div>
+          <span className="text-red-300 text-sm">{userNameIsToken}</span>
+          <span className="text-red-300 text-sm">{errors.user_name}</span>
           <label
             htmlFor="dropzone-file"
             className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900"
@@ -191,6 +213,7 @@ const SignupForm = () => {
               onChange={handleChange}
             />
           </div>
+          <span className="text-red-300 text-sm">{errors.email}</span>
 
           <div className="relative flex items-center mt-4">
             <span className="absolute">
@@ -219,6 +242,7 @@ const SignupForm = () => {
               autoComplete="new-password"
             />
           </div>
+          <span className="text-red-300 text-sm">{errors.password}</span>
 
           <div className="relative flex items-center mt-4">
             <span className="absolute">
@@ -247,6 +271,9 @@ const SignupForm = () => {
               autoComplete="new-password"
             />
           </div>
+          <span className="text-red-300 text-sm">
+            {errors.confirm_password}
+          </span>
 
           <div className="mt-6">
             <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">

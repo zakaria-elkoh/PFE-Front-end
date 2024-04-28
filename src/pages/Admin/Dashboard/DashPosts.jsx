@@ -44,11 +44,11 @@ const DashPosts = () => {
   return (
     <div className="h-[10000px] pt-10">
       <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow">
-        <div className="flex bg-green-300 items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
+        <div className="flex items-center relative bg-clip-border mx-4 rounded-xl overflow-hidden bg-gray-50 text-gray-800 shadow -mt-6 mb-8 p-6">
           <h6 className="block antialiased tracking-normal font-sans text-base font-bold leading-relaxed text-gray-800">
             Posts Table
           </h6>
-          <div className="flex items-center gap-5 flex-grow bg-red-300">
+          {/* <div className="flex items-center gap-5 flex-grow bg-red-300">
             <div className="relative max-w-md shadow mx-auto flex-grow hover:shadow-md rounded-lg">
               <input
                 type="search"
@@ -80,7 +80,7 @@ const DashPosts = () => {
               <option value="Banned">Banned</option>
               <option value="Not Verified">Not Verified</option>
             </select>
-          </div>
+          </div> */}
         </div>
         <div className="p-6 overflow-x-scroll px-0 pt-0 pb-2">
           <table className="w-full min-w-[640px] table-auto">

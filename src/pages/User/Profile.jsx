@@ -22,10 +22,19 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+  useEffect(() => {
     if (authUser.id == id) {
       navigate("/user/profile");
     }
   }, [authUser.id, id]);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
 
   const getPosts = async () => {
     try {
@@ -289,9 +298,7 @@ const Profile = () => {
             <Tabs defaultValue="account" className="max-w-xl w-full">
               <TabsList className="grid grid-cols-3">
                 <TabsTrigger value="posts" onClick={getPosts}>
-                  <span className="text-sm">
-                    Posts ({user?.posts_count})
-                  </span>
+                  <span className="text-sm">Posts ({user?.posts_count})</span>
                 </TabsTrigger>
                 <TabsTrigger value="followers">
                   <span className="text-sm">

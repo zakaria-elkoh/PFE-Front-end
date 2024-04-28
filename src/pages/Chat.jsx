@@ -1,6 +1,8 @@
 import ChatSideBar from "@/components/Chat/ChatSideBar";
 import ChatErea from "@/components/Chat/ChatErea";
 import { ChatProvider } from "@/contexts/ChatContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
   // Pusher.logToConsole = true;
@@ -14,6 +16,16 @@ const Chat = () => {
   //   console.log("from pusher", data);
   //   setMessages([...messages, data.message]);
   // });
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
 
   return (
     <ChatProvider>

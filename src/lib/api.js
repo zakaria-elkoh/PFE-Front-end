@@ -12,7 +12,6 @@ const setUserContext = (setAuthUser, setIsAuthenticated) => {
     setIsAuthenticated(!!localStorage.getItem('auth_user'));
 }
 
-
 export {
     setUserContext,
     logOut

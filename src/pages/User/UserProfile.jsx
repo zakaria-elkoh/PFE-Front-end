@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import BgPicture from "@/components/Profile/BgPicture";
 import ProfilePicture from "@/components/Profile/ProfilePicture";
-import { Post } from "@/components";
+import { NavBar, Post } from "@/components";
 import {
   Dialog,
   DialogContent,
@@ -35,12 +35,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import EditProfileForm from "@/components/Profile/EditProfileForm";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [message, setMessage] = useState("");
   const [verityIsLoading, setVerifyIsLoading] = useState(false);
   const { authUser } = useAuth();
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
 
   const getFollowers = async () => {
     customAxios.get(`/users/${authUser.id}/followers`).then((res) => {
@@ -106,6 +118,7 @@ const UserProfile = () => {
   return (
     <div className="overflow-hidden rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
       <Toaster position="top-center" />
+      <NavBar />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">
         <ProfilePicture profile_image={user?.profile_image} refetch={refetch} />

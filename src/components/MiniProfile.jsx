@@ -29,7 +29,7 @@ const MiniProfile = ({ user, refetch }) => {
               {user?.name} {"   "}
             </a>
             <span className="text-xs text-gray-600 dark:text-gray-300">
-              Lawyer
+              {user?.roles == "lawyer" ? "Lawyer" : ""}
             </span>
           </div>
         </Link>

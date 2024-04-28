@@ -1,8 +1,29 @@
 import Aside from "@/components/Aside/Aside";
-import { Outlet } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
+  const { authUser } = useAuth();
+
+  console.log("auttttt", authUser.roles.includes("user"));
+
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    } else if (!authUser.roles.includes("admin")) {
+      navigate("/");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  } else if (!authUser.roles.includes("admin")) {
+    return false;
+  }
+
   return (
     <div className="bg-gray-100 flex p-3">
       <Aside />

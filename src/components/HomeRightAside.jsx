@@ -7,7 +7,6 @@ const HomeRightAside = () => {
   const fetchUsers = async () => {
     try {
       const response = await customAxios.get("/users");
-      console.log("hhhhh", response);
       return response.data.data;
     } catch (error) {
       console.error(error);

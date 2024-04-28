@@ -49,7 +49,7 @@ const Post = ({ post }) => {
   const [likes_count, setLikesCount] = useState(post?.likes_count);
 
   return (
-    <div className="w-full mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800">
+    <div className="w-full text-start mx-auto overflow-hidden bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800">
       <div className="p-3 flex justify-between">
         <Link
           to={`/profile/${post?.author?.id}`}
@@ -77,13 +77,11 @@ const Post = ({ post }) => {
             </span>
           </div>
         </Link>
-        {post?.author?.id === authUser?.id && (
-          <EditDeletePopOver post={post} />
-        )}
+        {post?.author?.id === authUser?.id && <EditDeletePopOver post={post} />}
       </div>
       <div className="p-3 pb-6">
         <div>
-          <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 px-1">
             {post?.body}
           </p>
         </div>

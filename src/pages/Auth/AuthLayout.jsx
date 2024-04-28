@@ -1,6 +1,19 @@
-import { Link, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const AuthLayout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_user")) {
+      navigate("/");
+    }
+  }, []);
+
+  if (localStorage.getItem("auth_user")) {
+    return false;
+  }
+
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
