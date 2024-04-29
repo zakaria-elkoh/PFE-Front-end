@@ -49,6 +49,15 @@ const Followers = () => {
           <p className="text-gray-500">No followers yet</p>
         </div>
       )}
+      {/* <li>
+        <FollowerProfile user={authUser} />
+      </li>
+      <li>
+        <FollowerProfile user={authUser} />
+      </li>
+      <li>
+        <FollowerProfile user={authUser} />
+      </li> */}
     </ul>
   );
 };
