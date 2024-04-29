@@ -2,7 +2,6 @@
 const Tweeta = () => {
   return (
     <div className="w-full px-4 py-3 mt-16 bg-white rounded-md shadow-md dark:bg-gray-800">
-        {/* <div className="w-full px-4 py-3 bg-white rounded-md shadow-md dark:bg-gray-800"> */}
         <div className="flex justify-center -mt-16 md:justify-end">
             <img className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full dark:border-blue-400" alt="Testimonial avatar" src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80" />
         </div>
