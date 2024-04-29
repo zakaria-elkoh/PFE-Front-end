@@ -45,8 +45,8 @@ const AuthLayout = () => {
             </h2>
 
             <p className="mt-4 leading-relaxed text-white/90">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              nam dolorum aliquam, quibusdam aperiam voluptatum.
+              A hub for legal enthusiasts to connect, share insights, and
+              collaborate within a vibrant community.
             </p>
           </div>
         </section>

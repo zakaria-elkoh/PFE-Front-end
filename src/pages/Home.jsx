@@ -25,6 +25,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { isAuthenticated, authUser, setAuthUser } = useAuth();
@@ -36,6 +37,17 @@ const Home = () => {
   // const [postsType, setPostsType] = useState("all");
 
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("auth_user")) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!localStorage.getItem("auth_user")) {
+    return false;
+  }
 
   const handleSearch = async () => {
     const postsType = document.getElementById("select").value;

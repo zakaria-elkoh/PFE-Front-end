@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import customAxios from "@/axios/customAxios";
 import { useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import MiniProfileSkeleton from "./MiniProfileSkeleton";
 
 const Followers = () => {
   let user_id = useParams().id;
@@ -31,6 +32,13 @@ const Followers = () => {
 
   return (
     <ul className="flex flex-col gap-1">
+      {isLoading ? (
+        <>
+          <MiniProfileSkeleton />
+          <MiniProfileSkeleton />
+          <MiniProfileSkeleton />
+        </>
+      ) : null}
       {followers?.map((follower) => (
         <li key={follower.id}>
           <FollowerProfile user={follower} />

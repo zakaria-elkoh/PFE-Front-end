@@ -54,7 +54,7 @@ const EditProfileForm = ({ user, setOpen, refetch }) => {
       <form onSubmit={handleSubmit}>
         <CardHeader>
           <CardTitle>Edit Profile</CardTitle>
-          <CardDescription>Update your profile information.</CardDescription>
+          <CardDescription>If you change your name, you will need to verify your account again.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -66,6 +66,7 @@ const EditProfileForm = ({ user, setOpen, refetch }) => {
                 name="user_name"
                 id="user_name"
                 placeholder="Enter your username"
+                readOnly
               />
             </div>
             <div className="space-y-2">

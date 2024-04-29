@@ -72,7 +72,7 @@ const Profile = () => {
   });
 
   return (
-    <div className="overflow-hidden rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="overflow-hidden min-h-screen rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
       <Toaster position="top-center" />
       <BgPicture />
       <div className="px-4 pb-6 -mt-24 text-center lg:pb-8 xl:pb-11.5">

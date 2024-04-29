@@ -116,7 +116,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="overflow-hidden rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="overflow-hidden min-h-screen rounded-sm border border-stroke bg-[#ededed] shadow-default dark:border-strokedark dark:bg-boxdark">
       <Toaster position="top-center" />
       <NavBar />
       <BgPicture />
