@@ -82,17 +82,6 @@ const Home = () => {
     }
   };
 
-  // const refreshAuthUser = async () => {
-  //   try {
-  //     const res = await customAxios.get("/user");
-  //     console.log("refetch auth user", res.data.data);
-  //     setAuthUser(res.data.data);
-  //     localStorage.setItem("auth_user", JSON.stringify(res.data.data));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   useEffect(() => {
     // refreshAuthUser();
     fetchPosts();
