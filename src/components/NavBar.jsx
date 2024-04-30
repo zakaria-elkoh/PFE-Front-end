@@ -9,8 +9,6 @@ const NavBar = () => {
   const { isAuthenticated, setIsAuthenticated, authUser, setAuthUser } =
     useAuth();
 
-  console.log(authUser.roles == "admin");
-
   return (
     <nav
       // eslint-disable-next-line react/no-unknown-property

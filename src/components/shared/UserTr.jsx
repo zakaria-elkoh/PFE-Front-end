@@ -56,7 +56,7 @@ const UserTr = ({ user, refetch }) => {
               {user.name}
             </p>
             <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-              {user.user_name}
+              @{user.user_name}
             </p>
           </div>
         </div>
@@ -66,7 +66,7 @@ const UserTr = ({ user, refetch }) => {
           {user.email}
         </p>
         <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-          Organization
+          
         </p>
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">

@@ -34,7 +34,7 @@ const Statistic = () => {
         {/* <!-- row 1 --> */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {/* <!-- card1 --> */}
-          <div className="w-full max-w-full px-3 mb-6">
+          {/* <div className="w-full max-w-full px-3 mb-6">
             <div className="relative flex flex-col min-w-0 break-words bg-white shadow dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
               <div className="flex-auto p-4">
                 <div className="flex flex-row -mx-3">
@@ -62,7 +62,7 @@ const Statistic = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <!-- card2 (lawyers) --> */}
           <div className="w-full max-w-full px-3 mb-6">

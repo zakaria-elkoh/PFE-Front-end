@@ -37,7 +37,7 @@ const ProfileNotificationDropdown = () => {
       </a>
 
       <Popover>
-        <PopoverTrigger className="bg-green-200 rounded-full">
+        <PopoverTrigger className="rounded-full">
           <button
             className="p-2 bg-gray-100 rounded-full  text-gray-600 transition-colors duration-300 transform lg:block dark:text-gray-200 hover:text-gray-700 dark:hover:text-gray-400 focus:text-gray-700 dark:focus:text-gray-400 focus:outline-none"
             aria-label="show notifications"
@@ -58,7 +58,7 @@ const ProfileNotificationDropdown = () => {
             </svg>
           </button>
         </PopoverTrigger>
-        <PopoverContent className="px-2 py-3">
+        <PopoverContent className="px-2 py-3 w-64">
           <h2 className="mb-4">Place content for the popover here.</h2>
           <div className="flex flex-col gap-2">
             <div className="px-3 py-2 bg-gray-100 rounded-sm">

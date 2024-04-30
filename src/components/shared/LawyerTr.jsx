@@ -54,7 +54,7 @@ const LawyerTr = ({ lawyer, refetch }) => {
               {lawyer.name}
             </p>
             <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-              {lawyer.user_name}
+              @{lawyer.user_name}
             </p>
           </div>
         </div>
@@ -63,9 +63,7 @@ const LawyerTr = ({ lawyer, refetch }) => {
         <p className="block antialiased font-sans text-xs font-semibold text-blue-gray-600">
           {lawyer.email}
         </p>
-        <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500">
-          Organization
-        </p>
+        <p className="block antialiased font-sans text-xs font-normal text-blue-gray-500"></p>
       </td>
       <td className="py-3 px-5 border-b border-blue-gray-50">
         {lawyer?.is_banned ? (

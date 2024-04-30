@@ -50,7 +50,7 @@ const Users = () => {
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                   <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    function
+                    email
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
@@ -60,7 +60,7 @@ const Users = () => {
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                   <p className="block antialiased font-sans text-[11px] font-bold uppercase text-blue-gray-400">
-                    employed
+                    Joined at
                   </p>
                 </th>
                 <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
@@ -79,7 +79,9 @@ const Users = () => {
                 </>
               )}
               {users &&
-                users.map((user) => <UserTr key={user.id} user={user} refetch={refetch} />)}
+                users.map((user) => (
+                  <UserTr key={user.id} user={user} refetch={refetch} />
+                ))}
             </tbody>
           </table>
         </div>
